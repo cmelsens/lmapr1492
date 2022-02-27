@@ -1,0 +1,135 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "9c4440b5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from pymatgen.ext.matproj import MPRester\n",
+    "from pymatgen import Structure\n",
+    "from jupyter_jsmol.pymatgen import quick_view\n",
+    "from pymatgen.ext.matproj import MPRester\n",
+    "from pymatgen.symmetry.analyzer import SpacegroupAnalyzer\n",
+    "\n",
+    "from pymatgen import Lattice, Structure, Molecule\n",
+    "with MPRester(\"kVModF0coZpRa7Ku\") as m:\n",
+    "\n",
+    "    # Structure for material id\n",
+    "    structure = m.get_structure_by_material_id(\"mp-961678\")\n",
+    "\n",
+    "    # Dos for material id\n",
+    "    dos = m.get_dos_by_material_id(\"mp-961678\")\n",
+    "\n",
+    "    # Bandstructure for material id\n",
+    "    bandstructure = m.get_bandstructure_by_material_id(\"mp-961678\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "bc7b9a2c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "vecteurs = structure.lattice.abc #Lengths of the lattice vectors, i.e. (a, b, c)\n",
+    "angles = structure.lattice.angles #Angles of the lattice (alpha, beta, gamma)\n",
+    "\n",
+    "vecteurs_reciproques = structure.lattice.reciprocal_lattice.abc  #Lengths of the reciprocal vectors\n",
+    "angles_reciproques = structure.lattice.reciprocal_lattice.angles  #Angles of the reciprocal system\n",
+    "\n",
+    "sp = SpacegroupAnalyzer(structure)\n",
+    "\n",
+    "groupe_ponctuel = sp.get_point_group_symbol()\n",
+    "type_de_maille = sp.get_lattice_type()\n",
+    "cristal = sp.get_crystal_system()\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "def4379d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Physique du matériau ScCoTe\n",
+      "\n",
+      "Vecteurs et Angles appartenant au réseau direct : \n",
+      "\n",
+      "1) a = 4.298374843612409 Å\n",
+      "2) b = 4.298374843612409 Å\n",
+      "3) c = 4.298374843612409 Å \n",
+      "\n",
+      "1) alpha = 60.00000000000001 °\n",
+      "2) beta = 60.00000000000001 °\n",
+      "3) gamma = 60.00000000000001 ° \n",
+      "\n",
+      "Vecteurs et Angles appartenant au réseau réciproque : \n",
+      "\n",
+      "1) a* = 1.790281038985413 Å\n",
+      "2) b* = 1.790281038985413 Å\n",
+      "3) c* = 1.790281038985413 Å \n",
+      "\n",
+      "1) alpha = 109.47122063449069 °\n",
+      "2) beta = 109.47122063449069 °\n",
+      "3) gamma = 109.47122063449069 ° \n",
+      "\n",
+      "Type de maille du ScCoTe:  cubic\n",
+      "Système cristallin du ScCoTe :  cubic\n",
+      "Groupe ponctuel du ScCoTe:  -43m\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"Physique du matériau ScCoTe\\n\")\n",
+    "\n",
+    "print(\"Vecteurs et Angles appartenant au réseau direct : \\n\")\n",
+    "print(\"1) a =\",vecteurs[0],\"Å\")\n",
+    "print(\"2) b =\",vecteurs[1],\"Å\")\n",
+    "print(\"3) c =\",vecteurs[2],\"Å\",\"\\n\")\n",
+    "print(\"1) alpha =\",angles[0],\"°\")\n",
+    "print(\"2) beta =\",angles[1],\"°\")\n",
+    "print(\"3) gamma =\",angles[2],\"°\",\"\\n\")\n",
+    "\n",
+    "print(\"Vecteurs et Angles appartenant au réseau réciproque : \\n\")\n",
+    "\n",
+    "print(\"1) a* =\",vecteurs_reciproques[0],\"Å\")\n",
+    "print(\"2) b* =\",vecteurs_reciproques[1],\"Å\")\n",
+    "print(\"3) c* =\",vecteurs_reciproques[2],\"Å\",\"\\n\")\n",
+    "print(\"1) alpha =\",angles_reciproques[0],\"°\")\n",
+    "print(\"2) beta =\",angles_reciproques[1],\"°\")\n",
+    "print(\"3) gamma =\",angles_reciproques[2],\"°\",\"\\n\")\n",
+    "\n",
+    "print(\"Type de maille du ScCoTe: \", type_de_maille)\n",
+    "print(\"Système cristallin du ScCoTe : \", cristal)\n",
+    "print(\"Groupe ponctuel du ScCoTe: \", groupe_ponctuel)\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
